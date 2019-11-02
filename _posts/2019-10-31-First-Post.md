@@ -1,7 +1,7 @@
 ---
 layout: post
 title: My first blog!
-category: Git
+categories: Git
 tags: [yekyll,git]
 ---
 
