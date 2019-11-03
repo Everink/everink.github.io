@@ -15,7 +15,7 @@ So that brings us to the following requirements
 - Simple to setup
 - Scalable for if it will be a success
 
-At first wordpress.com seemed like a good choice, untill I found out about Yekyll and github pages.
+At first [wordpress.com](https://wordpress.com) seemed like a good choice, untill I found out about Yekyll and github pages.
 Github can serve my blog just fine, it's low maintance as it only serves up plain html, and costs nothing!
 It's also highly scalable, and it gives me the option to checkin my blogs in source control.
 
