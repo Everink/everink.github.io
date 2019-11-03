@@ -101,7 +101,7 @@ Next you can install Active Directory Domain Services. In our demo we'll use Pow
 As a best-practice, make sure all data is on a datadisk, and not on an OS disk. This also goes for the AD database, log directory and sysvol directory. 
 Change the values to your own domain, and check if the datadisk (here with F:\\) is visible
 
-{% highlight powershell %}
+{% highlight powershell linenos %}
 $securestring = ConvertTo-SecureString -AsPlainText -Force -String *********
 Install-windowsfeature -name AD-Domain-Services -IncludeManagementTools
 
@@ -123,7 +123,7 @@ Create OU for the Windows Virtual Desktop VM’s
 Now Active Directory has been installed and ready for use we can create a couple of OU's that will house our WVD servers, and our users.
 We will also do this with PowerShell, but you can also do this with the GUI.
 
-{% highlight powershell %}
+{% highlight powershell linenos %}
 New-ADOrganizationalUnit -Name ResultaatGroep -Path "DC=resultaatgroep,DC=eu"
 New-ADOrganizationalUnit -Name Groups -Path "OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
 New-ADOrganizationalUnit -Name Users -Path "OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
