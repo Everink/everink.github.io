@@ -1,8 +1,7 @@
 ---
 layout: post
 title: My first blog!
-categories: Git
-tags: [yekyll,git]
+categories: [Git,Yekyll]
 ---
 
 So I've been thinking about starting my own blogsite for a while now.
