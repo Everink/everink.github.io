@@ -123,13 +123,13 @@ Create OU for the Windows Virtual Desktop VM’s
 Now Active Directory has been installed and ready for use we can create a couple of OU's that will house our WVD servers, and our users.
 We will also do this with PowerShell, but you can also do this with the GUI.
 
-```
+{% highlight powershell %}
 New-ADOrganizationalUnit -Name ResultaatGroep -Path "DC=resultaatgroep,DC=eu"
 New-ADOrganizationalUnit -Name Groups -Path "OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
 New-ADOrganizationalUnit -Name Users -Path "OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
 New-ADOrganizationalUnit -Name Servers -Path "OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
 New-ADOrganizationalUnit -Name "Windows Virtual Desktops" -Path "OU=Servers,OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
-```
+{% endhighlight %}
 
 Creating testaccounts
 ---------------------
