@@ -4,12 +4,10 @@ title: About
 permalink: /about/
 ---
 
-I'm 
+My name is Roel Everink, I work as a senior system engineer at RAM Infotechnology. My specialty is in the field of Azure Infrastructure and automation.
+You can reach me through [LinkedIn](https://www.linkedin.com/in/roeleverink/)
+For a list of my certifications you can look at my [acclaim page](https://www.youracclaim.com/users/roel-everink)
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself.
-
-### Contact me
-
-[email@domain.com](mailto:email@domain.com)
+I live in the Netherlands, in the city Culemborg. I'm happily married and have 2 kids
