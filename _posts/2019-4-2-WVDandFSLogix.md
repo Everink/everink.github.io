@@ -101,7 +101,7 @@ Next you can install Active Directory Domain Services. In our demo we'll use Pow
 As a best-practice, make sure all data is on a datadisk, and not on an OS disk. This also goes for the AD database, log directory and sysvol directory. 
 Change the values to your own domain, and check if the datadisk (here with F:\\) is visible
 
- ``` powershell
+{% highlight powershell %}
 $securestring = ConvertTo-SecureString -AsPlainText -Force -String *********
 Install-windowsfeature -name AD-Domain-Services -IncludeManagementTools
 
@@ -115,7 +115,7 @@ $parameterSplat = @{
     SafeModeAdministratorPassword = $securestring
 }
 Install-ADDSForest @parameterSplat
-```
+{% endhighlight %}
 
 Create OU for the Windows Virtual Desktop VM’s
 ------------------------------------------------
