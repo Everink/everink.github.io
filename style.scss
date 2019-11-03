@@ -20,13 +20,13 @@ html {
 body {
   //background: $white;
   background: #d3d3d3;
-  font: 18px/1.4 $helvetica;
+  font: 16px/1.4 $helvetica;
   color: $darkGray;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 740px;
+  max-width: 840px;
   padding: 0 10px;
   width: 100%;
 }
@@ -212,7 +212,7 @@ img {
 }
 
 nav {
-  float: left;
+  //float: left;
   margin-top: 10px; // @TODO: Vertically middle align
   padding-bottom: 10px;
   font-family: $helveticaNeue;
