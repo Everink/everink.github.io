@@ -227,7 +227,7 @@ Then wait about 30 seconds, and select: “**Client App**” with the same Tenan
 
 You can find your Tenant ID at the following location:
 
-“**Azure Active Directory**” “**Properties**” “**Directory ID**”
+“**Azure Active Directory**” --> “**Properties**” --> “**Directory ID**”
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/51b183af0958f2334daf4c1401614297.png)
 
@@ -277,13 +277,13 @@ $subscriptionId = "11111111-2222-3333-4444-555555555555"
 Add-RdsAccount -DeploymentUrl "https://rdbroker.wvd.microsoft.com"
 
 #Creating the RDS tenant
-New-RdsTenant -Name \$tenantName -AadTenantId \$AadTenantId -AzureSubscriptionId $subscriptionId
+New-RdsTenant -Name $tenantName -AadTenantId $AadTenantId -AzureSubscriptionId $subscriptionId
 
 #Login to Azure AD with a global admin account to create a service principal
 $aadContext = Connect-AzureAD
 
 #Creating theservice principal with credentials
-$svcPrincipal = New-AzureADApplication -AvailableToOtherTenants \$true -DisplayName "Windows Virtual Desktop Svc Principal"
+$svcPrincipal = New-AzureADApplication -AvailableToOtherTenants $true -DisplayName "Windows Virtual Desktop Svc Principal"
 $svcPrincipalCreds = New-AzureADApplicationPasswordCredential -ObjectId $svcPrincipal.ObjectId
 
 #Assign rights to the service principal
@@ -444,22 +444,22 @@ To configure FSLogix we also make a group policy. Under Computer Configuration -
 Configure at least the following:
 
 **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers**
-|||
+| Setting | Value |
 |-----------|----------|
 | Enabled   | Enabled    |
 | Size in MB’s   | 25600   |
 | Delete local profile when FSLogix Profile should apply  | Enabled (be carefull with this setting in production environments) |
 **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Advanced**
-|||
+| Setting | Value |
 |-----------|----------|
 | Locked VHD retry count   | 1    |
 | Locked VHD retry interval    | 0    |
 **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Cloud Cache**
-|||
+| Setting | Value |
 |-----------|----------|
 | Cloud Cache Locations \*   | type=azure,connectionString="XXXXXXX"    |
 **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Container and Directory Naming**
-|||
+| Setting | Value |
 |-----------|----------|
 | SID directory name matching string    | %userdomain%-%username%  |
 | SID directory name pattern string  | %userdomain%-%username%   |
@@ -540,10 +540,10 @@ Note, this time we use the **User Configuration** section to force the cache set
 Make a new GPO and configure as following:
 
 **User Configuration -\> Policies -\> Administrative Templates -\> Microsoft Outlook 2016/Account Settings/Exchange/Cached Exchange Mode**
-|||
+| Setting | Value |
 |-----------|----------|
 | Cached Exchange Mode Sync Settings  | Enabled   |
-| Select Cached Exchange Mode sync settings for profiles  | determine yourself |
+| Select Cached Exchange Mode sync settings for profiles  | *determine yourself* |
 | Use Cached Exchange Mode for new and existing Outlook profiles | Enabled |
 
 Rebooting Server(s)
