@@ -4,11 +4,11 @@ title: "Step by step: Windows Virtual Desktop and FSLogix"
 categories: [Windows Virtual Desktop,FSLogix,Azure]
 ---
 
-21 march 2019 the Windows Virtual Desktop preview went live. My colleague Jan Bakker and myself went strait to all available documentation, and build a testenvironment together.
+21 March 2019 the Windows Virtual Desktop preview went live. My colleague [Jan Bakker](https://www.linkedin.com/in/jan-bakker/) and myself went strait to all available documentation, and build a testenvironment together.
 In this blogpost we will show you how to setup a Windows Virtual Desktop (WVD) environment, and what to watch out for. As a bonus we will also show how to install and configure FSLogix.
 This tuturial will be a step by step guide to setup a complete environment starting from zero.
 
-**Wat is Windows Virtual Desktop?**
+**What is Windows Virtual Desktop?**
 
 Windows Virtual Desktop is a new service from Microsoft and enables you to deliver a virtual desktop from the Azure cloud.
 This could be a multi-user Windows 10 desktop, but also Windows 7 (with extended support) is possible.
@@ -101,7 +101,7 @@ Next you can install Active Directory Domain Services. In our demo we'll use Pow
 As a best-practice, make sure all data is on a datadisk, and not on an OS disk. This also goes for the AD database, log directory and sysvol directory. 
 Change the values to your own domain, and check if the datadisk (here with F:\\) is visible
 
- ```powershell
+ ```
 $securestring = ConvertTo-SecureString -AsPlainText -Force -String *********
 Install-windowsfeature -name AD-Domain-Services -IncludeManagementTools
 
