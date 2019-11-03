@@ -378,140 +378,100 @@ testgebruiker.
 **Optional:** Virtual Desktop VM’s & FSLogix
 =============================================
 
-We willen je ook graag laten zien hoe je FSLogix kunt installeren en
-configureren. Dit is een optionele stap, maar zeker aan te raden om hier mee aan
-de slag te gaan. Met FSLogix kun je het profiel, en daarmee ook de
-Outlook/Onedrive cache en de zoekindex opslaan op een aparte VHDX die aan je
-sessie gekoppeld wordt wanneer de gebruikt inlogt.
+We also want to show you how to install and configure FSLogix. This step is optional, but certainly a good thing to do. 
+With FSLogix you can store the profile, and with it, the Outlook/OneDrive cache and the searchindex in a separate VHDX that will connect to your session at logon time.
 
-De VHDX staat normaalgesproken op een SMB fileshare op een server. Echter
-ondersteund FSLogix ook een Azure page block storage! Aangezien we hiervoor geen
-fileserver nodig hebben die we moeten onderhouden, en compute kost, is dit
-natuurlijk de optie wie we gaan gebruiken!
+The VHDX is normally on an SMB fileshare on a server, but FSLogix also supports Azure page block storage! As we dont need a fileserver for the Azure storage that we'll have to maintain and will incur compute cost, this is the best option for us!
+We recommend to first read the [FSLogix documentation](https://docs.fslogix.com/) if you're not yet familiar with it.
 
-We raden je aan ook eerst even in [de FSLogix
-documentatie](https://docs.fslogix.com/) te duiken als je hier nog niet bekend
-mee bent. Hiermee krijg je snel een beeld van hoe FSLogix werkt, en weet je ook
-gelijk welke mogelijkheden er nog meer zijn.
+*For all next steps goes: these are for our demo environment, some of these are not recommended for a production environment.*
 
-*Voor alle volgende stappen geldt: deze instellingen zijn gezet voor onze demo
-omgeving. Sommige instellingen zijn wellicht af te raden voor
-productieomgevingen.*
-
-Storage account voor de Profile Containers
+Storage account for the Profile Containers
 ------------------------------------------
 
-We beginnen met het aanmaken het Azure Storage Account. Hier komen de FSLogix
-VHDX bestanden op te staan. Gebruik je liever een SMB share, kan ook. Maak dan
-een fileshare aan volgens deze instructies:
-<https://docs.fslogix.com/display/20170529/Requirements+-+Profile+Containers>
+We start with creating the Azure Storage Account. This will house the FSLogix VHDX files. If you prefer an SMB share that is also possible, then create a fileshare with these instructions: <https://docs.fslogix.com/display/20170529/Requirements+-+Profile+Containers>
 
-Ga naar de Azure portal om het storage account aan te maken. Klik op “**Create a
-resource**” zoek naar: “**Storage account**” en klik op “**Create**”
+Go to the Azure portal to create the storage account. Click on  “**Create a resource**” Search for: “**Storage account**” and click on: “**Create**”
 
-Volg vervolgens de wizard om alle velden in te vullen. Wij kiezen voor premium
-storage, zodat de gebruikerservaring zo snel mogelijk is.
+Follow the wizard to fill out all fields. We chose for premium storage, so the user experience is as fast as possible
 
-Verder staan we alleen toegang toe vanaf het subnet waarin onze Virtual Desktops
-komen. Dit zorgt er ook voor dat er ook een [Storage
-Endpoint](https://docs.microsoft.com/nl-nl/azure/virtual-network/virtual-network-service-endpoints-overview)
-aan dit subnet wordt toegevoegd, zodat de latency naar de storage zo laag
-mogelijk is. De volledige settings staan hieronder in de screenshot.
+We also only allow access from the subnet in which our Virtual Desktops will reside. This will also mage sure that a [Storage
+Endpoint](https://docs.microsoft.com/nl-nl/azure/virtual-network/virtual-network-service-endpoints-overview) will be added to this subnet, so the latency to the storage will be as low as possible.
+The full settings are in the screenshot below.
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/bdf34c4d1a71d3cc8a546d53f109154a.png)
 
-GPO – FSLogix Agent installeren
+GPO – Install FSLogix Agent
 -------------------------------
 
-Om de FSLogix agent te installeren gebruiken we een Group Policy nodig die deze
-installeert. De software kan gedownload worden vanaf
-<https://go.microsoft.com/fwlink/?linkid=2084562>
+To install the FSLogix agent we use a group policy. You can download the software from <https://go.microsoft.com/fwlink/?linkid=2084562>
 
-Uit deze ZIP heb je *FSLogixAppsSetup.exe* nodig, en de *TXT file* met de
-licentie. Ook hebben we later het ADMX en ADML bestand nodig om een GPO te maken
-voor de agent-instellingen.
+From the ZIP file you'll need the FSLogixAppsSetup.exe and the TXT file with the licence. We also need the ADMX and ADML files to create the GPO for the agent settings.
+> Update: You don't need a license anymore to install FSLogix, so that part is obsolete.
 
-Maak een nieuwe GPO onder de OU die je eerder aangemaakt hebt. Kies voor
-Computer Configuration -\> Windows Settings -\> Scripts -\> Startup. Kies voor
-Show Files en plaats de EXE in de folder.
+Make a new GPO under the OU that we created earlier. Go to Computer Configuration -\> Windows Settings -\> Scripts -\> Startup. Click on **Show Files** and place the .EXE in the folder.
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/f5ad12294b84029a5e33df7c60690bc3.png)
 
-Klik vervolgens op Add en voeg de EXE toe. Vul in het parameter veld de volgende
-gegevens in : */silent ProductKey=MSFT0-YXKIX-NVQI4-I6WIA-O4TXE*
+Next click on **Add** and add the .EXE. In the parameter field fill in: */silent ProductKey=MSFT0-YXKIX-NVQI4-I6WIA-O4TXE*
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/7ddeecd1d53aee351fd57af055159b64.png)
 
-ADMX bestanden importeren
+Import ADMX files
 -------------------------
 
-Kopieer het bestand “fslogix.admx” bestand (uit de ZIP file) naar de
-C:\\Windows\\PolicyDefinitions map op je domaincontroller. Kopieer het
-“fslogix.adml” bestand naar de C:\\Windows\\PolicyDefinitions\\en-us\\ folder.
+Copy the file “fslogix.admx” (from theZIP file) to C:\\Windows\\PolicyDefinitions on your domaincontroller. Copy the file “fslogix.adml” to the C:\\Windows\\PolicyDefinitions\\en-us\\ folder.
 
-GPO – FSLogix Agent instellingen
+GPO – Configure FSLogix Agent
 --------------------------------
 
-Om FSLogix te configureren maken we ook een Group Policy. Onder Computer
-Configuration -\> Policies -\> Adminstrative Templates kun je de FSLogix
-instellingen terug vinden.
+To configure FSLogix we also make a group policy. Under Computer Configuration -\> Policies -\> Adminstrative Templates you can find the FSLogix settings.
 
-Configureer ten minste de volgende instellingen:
+Configure at least the following:
 
-| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers** |    |
+**Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers**
+|||
 |-----------|----------|
 | Enabled   | Enabled    |
 | Size in MB’s   | 25600   |
-| Delete local profile when FSLogix Profile should apply  | Enabled (wees voorzichtig met deze setting in productie omgevingen) |
-| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Advanced**  |    |
+| Delete local profile when FSLogix Profile should apply  | Enabled (be carefull with this setting in production environments) |
+**Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Advanced**
+|||
+|-----------|----------|
 | Locked VHD retry count   | 1    |
 | Locked VHD retry interval    | 0    |
-| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Cloud Cache**  |   |
+**Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Cloud Cache**
+|||
+|-----------|----------|
 | Cloud Cache Locations \*   | type=azure,connectionString="XXXXXXX"    |
-| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Container and Directory Naming** |  |
+**Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Container and Directory Naming**
+|||
+|-----------|----------|
 | SID directory name matching string    | %userdomain%-%username%  |
 | SID directory name pattern string  | %userdomain%-%username%   |
 | Virtual disk type  | VHDX |
 
-\* Vervang bij de waarde de XXXXXX tekens voor je persoonlijke connection-string
-van het strorage account dat je eerder gemaakt hebt in stap 1.1
+\* Replace the value XXXXXX for your own personal connection string of the storage account that you created earlier
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/ed011d9883f2af177a754cd9046de0c3.png)
 
-Include en Exclude Groepen aanmaken (Optioneel)
+Creating Include and Exclude Groups (Optional)
 -----------------------------------------------
 
-Standaard worden er 4 lokale groepen aangemaakt waardoor FSLogix voor iedereen
-wordt aangezet. Om te bepalen voor wie je Profile Container wilt aanzetten en
-voor wie niet, is het nodig om 2 AD Groepen aan te maken. Deze koppelen we met
-de groepen die FSLogix lokaal op de server(s) heeft aangemaakt. Zo kunnen we
-bijvoorbeeld FSLogix uitschakelen voor domain admins en aanzetten voor
-specifieke gebruikers.
+By default there are 4 local groups so FSLogix is enabled for everyone. To determine who will be enabled for FSLogix Profile Containers and who will be disabled you can create 2 AD groups. We will add these to the groups which FSLogix made locally on the server(s). That way we can disable FSLogix for our domain admins or specific users.
 
-Maak 2 groepen in AD: **FSLogix AD Profile Exclude List** & **FSLogix AD Profile
-Include List.** Maak de groep domain admins lid van de Exclude groep en voeg in
-ieder geval je testaccounts toe aan de include groep.
+Make 2 groups in AD:  **FSLogix AD Profile Exclude List** & **FSLogix AD Profile Include List**. Make the AD group "Domain Admins" member of the exclude group, and add your testusers to the include group.
 
-Maak vervolgens een nieuwe policy en koppel de AD groepen aan de lokale groepen.
-De namen van de lokale groepen zijn: **FSLogix Profile Include List** &
-**FSLogix Profile Exclude List.** Vink aan dat de groep eerst leeggemaakt moet
-worden.
+Then make a new GPO and add the AD groups to the local groups. The names of the local groups are:
+**FSLogix Profile Include List** & **FSLogix Profile Exclude List**. Enable the option to delete all members of the group
 
-![](media/5b31d32fb7950bdd2196214b1bf20c83.png)
+![]({{ site.baseurl }}/images/WVDandFSLogix/5b31d32fb7950bdd2196214b1bf20c83.png)
 
 Office Deployment Tool
 ----------------------
 
-Als je een geldige Office 365 licentie hebt, kun je ook gelijk testen met Office
-365 ProPlus. Hiervoor maken we een GPO die dit installeert tijdens het
-opstarten. We gebruiken de website <https://config.office.com/> om een XML te
-maken voor de installatie. Let er op dat je “Shared Computer Activation”
-aanvinkt, anders werkt de software niet op een multi-user omgeving. In mijn
-configuratie heb ik een selectie gedaan van een aantal producten. De overige
-applicaties zijn uitgesloten. Ook heb ik er voor gekozen dat de bestanden worden
-gedownload vanaf het Office Content Delivery Network. Aangezien we onze VM’s
-toch in Azure bouwen, is dit de meest makkelijke manier. Je kunt onderstaande
-configuratie gebruiken, maar je kan ook je eigen “Configuration.xml” maken.
+If you have a valid Office 365 license, you can also test with Office 365 ProPlus. For this we create a GPO that will install this during boot. We used the website <https://config.office.com/> to create an XML for our install. 
+Make sure you enable "Shared Computer Activation", else the software doesn't work properly on a multi-user environment. In our config we made a selection of a couple of products. The other applications will not be installed.
 
 {% highlight xml linenos %}
 <Configuration ID="a02f45f4-6a0e-4215-85af-e2458dabbcf4" DeploymentConfigurationID="00000000-0000-0000-0000-000000000000">
@@ -537,69 +497,54 @@ configuratie gebruiken, maar je kan ook je eigen “Configuration.xml” maken.
 </Configuration>
 {% endhighlight %}
 
-Om Office te installeren heb je de Office Deployment Tool nodig. Deze kun je
-hier downloaden:
-<https://www.microsoft.com/en-us/download/details.aspx?id=49117>
+To install Office you need the Office Deployment Tool. You can download it from here: <https://www.microsoft.com/en-us/download/details.aspx?id=49117>
 
-Pak de bestanden uit. De “**setup.exe**” en de eerder gemaakte
-“**Configuration.xml”** heb je nodig in de volgende stap.
+Extract the files, you will need the “**setup.exe**” and the earlier made “**Configuration.xml”** in the next step.
 
-GPO – Office 365 ProPlus installatie
+GPO – Install Office 365 ProPlus
 ------------------------------------
 
-Maak een nieuwe GPO. Kies voor Computer Configuration -\> Windows Settings -\>
-Scripts -\> Startup en plaats zoals eerder met de FSLogix agent nu de setup.exe
-en de Configuration.xml in de folder.
+Make a new GPO. Go to Computer Configuration -\> Windows Settings -\> Scripts -\> Startup and place, like before with the FSLogix agent, now the setup.exe and the configuration.xml in the folder.
 
-Klik vervolgens op Add en kies de **setup.exe** file. In het Script parameter
-veld vul je in: */Configure Configuration.xml*
+Then click on **Add** and choose the **setup.exe** file. And the script parameter field you enter: */Configure Configuration.xml*
 
-Koppel de GPO aan de OU die je eerder gemaakt hebt voor je Windows Virtual
-Deskop VM’s.
+Now link the GPO to the OU that you made before for your Windows Virtual Deskop VM’s.
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/870078889b390e4849488efe47aa8739.png)
 
-Office 365 ProPlus settings voor Outlook (Optioneel)
+Office 365 ProPlus settings for Outlook (Optional)
 ----------------------------------------------------
 
-*Deze stap is optioneel. Je kunt ook handmatig de cache configureren aan de
-client kant.*
+*This step is optional. You can also configure the cache manually on the clients*
 
-Om de cache te configureren van Outlook maken we een Group Policy op basis van
-de Office 365 ProPlus ADMX bestanden. Deze ADMX bestanden kun je downloaden via
-deze link: <https://www.microsoft.com/en-us/download/details.aspx?id=49030>
+To configure the cache we create a GPO based on the Office 365 ProPlus ADMX files. You can download the files from the following link: <https://www.microsoft.com/en-us/download/details.aspx?id=49030>
 
-Kopieer ten minste de ADMX en ADML van Outlook naar
-C:\\Windows\\PolicyDefinitions op de domaincontroller.
+Copy at least the ADMX and ADML of Outlook to C:\\Windows\\PolicyDefinitions on your domain controller.
 
-Let op, deze keer gebruiken we **gebruikersinstellingen** om de cache af te
-dwingen.
+Note, this time we use the **User Configuration** section to force the cache settings
 
-Maak een nieuwe GPO en configureer als volgt:
+Make a new GPO and configure as following:
 
-| **User Configuration -\> Policies -\> Administrative Templates -\> Microsoft Outlook 2016/Account Settings/Exchange/Cached Exchange Mode** |  |
-|----|----|
+**User Configuration -\> Policies -\> Administrative Templates -\> Microsoft Outlook 2016/Account Settings/Exchange/Cached Exchange Mode**
+|||
+|-----------|----------|
 | Cached Exchange Mode Sync Settings  | Enabled   |
-| Select Cached Exchange Mode sync settings for profiles  | Zelf te bepalen. |
+| Select Cached Exchange Mode sync settings for profiles  | determine yourself |
 | Use Cached Exchange Mode for new and existing Outlook profiles | Enabled |
 
-Server(s) herstarten
+Rebooting Server(s)
 --------------------
 
-Als alle Group Policies zijn aangemaakt is het nodig om de server(s) te
-herstarten. Bij het opstarten zullen de FSLogix Agent en Office 365 ProPlus
-geïnstalleerd worden. Dit duurt uiteraard een paar minuten.
+When all GPO's have been made, you'll have to reboot your servers. During booting the FSLogix agent and Office 365 will be installed. This will take a couple minutes ofcourse, but nothing too long, as your VM's are connected to the Microsoft backbone.
 
-Hierna kun je inloggen en Outlook en Onedrive instellen voor gebruik. Gebruik
-hiervoor een reeds bestaand Office 365 / Exchange account voor nodig.
+After this you can login and configure Outlook and OneDrive for use. Offcourse your account needs a valid license for this.
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/8737b7f535709504b383f1d598ab2794.png)
 
-VHDX locatie
+VHDX location
 ------------
 
-Controleer nu in de Azure portal of je de VHDX op de juiste manier terug ziet.
-Als het goed, ziet het er als volgt uit:
+Now check the Azure portal if you can see the VHDX. If you did everything correct it will look like this:
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/d6feba40c92a80cf26c9ff284fa69f21.png)
 
@@ -608,30 +553,23 @@ Als het goed, ziet het er als volgt uit:
 Troubleshoot Profile containers
 -------------------------------
 
-Samen met de FSLogix software wordt ook een tool geïnstalleerd waarmee je wat
-meer logging kunt uitlezen betreffende Profile Containers. De staat op de
-volgende locatie: **"C:\\Program Files\\FSLogix\\Apps\\frxtray.exe"**
+With the FSLogix software a tool will be installed to easily read the FSLogix logging. It's located on the following location: **"C:\\Program Files\\FSLogix\\Apps\\frxtray.exe"**
 
-*TIP: kopieer deze tool naar C:\\ProgramData\\Microsoft\\Windows\\Start
-Menu\\Programs\\StartUp. Hierdoor start deze op voor elke gebruiker.*
+> TIP: Copy this tool to C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp. This will make it start for all users
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/ccc9341744562675486835b5e350f706.png)
 
-Meer informatie
+More info
 ===============
 
-We hebben onderstaande bronnen gebruikt voor het maken van deze blog. Hier kun
-je informatie nog eens rustig nalezen. Check ook deze uitgebreide blog van
-Pieter Wigleven :
-<https://techcommunity.microsoft.com/t5/Windows-IT-Pro-Blog/Getting-started-with-Windows-Virtual-Desktop/ba-p/391054>
+We used the below sources for making this blog.
 
-[FSLogix Documentatie](https://docs.fslogix.com/)
+[FSLogix Documentation](https://docs.fslogix.com/)
 
-[Windows Virtual Desktop
-Documentatie](https://docs.microsoft.com/nl-nl/azure/virtual-desktop/overview)
+[Windows Virtual Desktop Documentation](https://docs.microsoft.com/nl-nl/azure/virtual-desktop/overview)
 
-Voor vragen en/of opmerkingen kun je ons een berichtje sturen via LinkedIn.
+For questions or remarks you can reach us through LinkedIn.
 
 | [Roel Everink](https://www.linkedin.com/in/roeleverink/) | [Jan Bakker](https://www.linkedin.com/in/jan-bakker/) |
-|----|----|
+|:----:|:----:|
 | ![]({{ site.baseurl }}/images/WVDandFSLogix/image35.jpg) | ![]({{ site.baseurl }}/images/WVDandFSLogix/image36.jpg) |
