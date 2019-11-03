@@ -16,9 +16,21 @@ It also gives you the ability to install Office 365 ProPlus on the virtual deskt
 Windows Virtual Desktop is a schalable service to deploy virtual machines, made possible by Azure resources, storage and advanced networking. 
 The back-end like RDS brokers, gateways, web access, databases, and diagnostics are hosted and managed by Microsoft.
 
+Table of Contents
+=================
 
-Requirements
-============
+1. [Requirements]({{ site.baseurl }}{{ page.url }}#Requirements)
+2. [Create azure tenant & subscription]({{ site.baseurl }}{{ page.url }}#create-azure-tenant)
+3. [Installing Active Directory Domain Services]({{ site.baseurl }}{{ page.url }}#installing-adds)
+4. [Installing Azure AD Connect]({{ site.baseurl }}{{ page.url }}#installing-azureadconnect)
+5. [Configuring Windows Virtual Desktop]({{ site.baseurl }}{{ page.url }}#configuring-wvd)
+6. [Connecting to Windows Virtual Desktop]({{ site.baseurl }}{{ page.url }}#connecting-wvd)
+7. [Optional: Virtual Desktop VM’s & FSLogix]({{ site.baseurl }}{{ page.url }}#optional-virtual-desktop)
+8. [More info]({{ site.baseurl }}{{ page.url }}#more-info)
+
+<a name="Requirements"></a>
+
+# 1. Requirements
 
 To use Windows Virtual Desktop there are some requirements:
 
@@ -39,9 +51,9 @@ There are 3 options for Active Directory Domain Services:
     or ExpressRoute
 
 In this blog we chose option 2: We install a Server 2019 VM and install the ADDS role.
+<a name="create-azure-tenant"></a>
 
-Create azure tenant & subscription
-=====================================
+# 2. Create azure tenant & subscription
 
 In this blog we start from zero. We'll show you how to deploy Windows Virtual desktop from zero. So we start with requesting a 30-days Azure trial subscription. 
 You can request your trial here:
@@ -63,9 +75,10 @@ As soon as we added the custom domainname, we have to create a TXT record in DNS
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/b86bbbc391db5623c6f4a8d5842d08be.png)
 
+<a name="installing-adds"></a>
 
-Installing Active Directory Domain Services
-============================================
+# 3. Installing Active Directory Domain Services
+
 
 To deploy Active Directory we first need a server in our subsciption. We'll also need a network to which the server can connect to. However, we can create the network during the VM creation wizard.
 
@@ -168,8 +181,9 @@ New-ADUser @newADUserSplat2
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/efe3ba3550f1f6d633c26a6d8de05e84.png)
 
-Installing Azure AD Connect
-============================
+<a name="installing-azureadconnect"></a>
+
+# 4. Installing Azure AD Connect
 
 Next we will install Azure AD Connect to synchronize our Active Directory with Azure Active Directory.
 
@@ -192,8 +206,9 @@ After the install the synchronize will start automatically. You can check in you
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/2155f10fc34a467c3df7647859931c14.png)
 
-Configure Windows Virtual Desktop
-====================================
+<a name="configuring-wvd"></a>
+
+# 5. Configure Windows Virtual Desktop
 
 To use Windows Virtual Desktop (WVD) there are a few steps to be taken to give the back-end service and web client rights to your Azure AD tenant.
 
@@ -223,19 +238,16 @@ Creating the WVD tenant
 
 Creating the tenant is done on the server back-end, which we just gave rights to our Azure tenant.
 
-We just have to give a user (or service principal) rights to create the actual WVD tenant. Go in the Azure portal to: “**Azure Active Directory**” -->
-“**Enterprise Application**”
+We just have to give a user (or service principal) rights to create the actual WVD tenant. Go in the Azure portal to: “**Azure Active Directory**” --> “**Enterprise Application**”
 
 In the list are 2 applications: “Windows Virtual Desktop” & “Windows Virtual
 Desktop Client”
 
 These have been created because we gave them access to our Azure tenant in the previous step.
 
-Click on:“**Windows Virtual Desktop**” --> “**Users and groups**”
-and click on: “**Add user**”
+Click on:“**Windows Virtual Desktop**” --> “**Users and groups**” and click on: “**Add user**”
 
-At role there is only one option and its preselected: TenantCreator. Select one or multiple users who can create a tenant.
-And click on “**Assign**”
+At role there is only one option and its preselected: TenantCreator. Select one or multiple users who can create a tenant. And click on “**Assign**”
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/725c15d4af3e4d71210fe3a24c5bb4c6.png)
 
@@ -345,8 +357,9 @@ You can follow the status of your deployment under **Deployments** while inside 
 
 At the moment of writing this, it is not yet possible to give a group rights to a hostpool, only users can be granted rights to a hostpool
 
-Connecting to Windows Virtual Desktop
-=====================================
+<a name="connecting-wvd"></a>
+
+# 6. Connecting to Windows Virtual Desktop
 
 You can connecto to Windows Virtual Desktop in 2 ways, will we show both.
 
@@ -375,8 +388,9 @@ testgebruiker.
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/28df9e185348c484b3c9df6810eafaf0.png)
 
-**Optional:** Virtual Desktop VM’s & FSLogix
-=============================================
+<a name="optional-virtual-desktop"></a>
+
+# 6. Optional: Virtual Desktop VM’s & FSLogix
 
 We also want to show you how to install and configure FSLogix. This step is optional, but certainly a good thing to do. 
 With FSLogix you can store the profile, and with it, the Outlook/OneDrive cache and the searchindex in a separate VHDX that will connect to your session at logon time.
@@ -559,8 +573,9 @@ With the FSLogix software a tool will be installed to easily read the FSLogix lo
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/ccc9341744562675486835b5e350f706.png)
 
-More info
-===============
+<a name="more-info"></a>
+
+# 7. More info
 
 We used the below sources for making this blog.
 
