@@ -136,7 +136,7 @@ Creating testaccounts
 
 To login at our Virtuele Desktops, we create a couple of testaccounts. You'll need these before you create the WVD hostpool, as you need to supply users during the wizard.
 
-``` PowerShell
+{% highlight powershell linenos %}
 $newADUserSplat = @{
     Path = "OU=Users,OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
     ChangePasswordAtLogon = $false
@@ -164,7 +164,7 @@ $newADUserSplat2 = @{
     Surname = "Everink"
 }
 New-ADUser @newADUserSplat2
-```
+{% endhighlight %}
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/efe3ba3550f1f6d633c26a6d8de05e84.png)
 
@@ -251,7 +251,8 @@ You can use the service principal because later during the WVD wizard you'll use
 If you use a regular user account that isn't MFA enabled you can skip creating the service principal.
 
 Start PowerShell as administrator (to install modules) and execute the following commands (substitute variables for your environment):
-```powershell
+
+{% highlight powershell linenos %}
 Install-Module -Name Microsoft.RDInfra.RDPowerShell, AzureAD
 Import-Module -Name Microsoft.RDInfra.RDPowerShell, AzureAD
 
@@ -279,7 +280,8 @@ New-RdsRoleAssignment -RoleDefinitionName "RDS Owner" -ApplicationId $svcPrincip
 #Make sure the credentials of the sevice principal are saved, you can see these with:
 $svcPrincipal.AppId
 $svcPrincipalCreds.Value
-```
+{% endhighlight %}
+
 You'll need the password and AppId in the next step.
 
 >**Note**: The next step is creating the hostpool, if you want to test FSLogix and Office 365 on your VM's right away, then take the nessicary steps from chapter 7 first. There we will create install scripts for Office and the FSLogix agent, and we'll configure it with Azure Blob storage. Offcourse, these steps can also be done afterwards.
@@ -456,20 +458,20 @@ instellingen terug vinden.
 
 Configureer ten minste de volgende instellingen:
 
-| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers**                                |                                                                     |
-|------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
-| Enabled                                                                                                                            | Enabled                                                             |
-| Size in MB’s                                                                                                                       | 25600                                                               |
-| Delete local profile when FSLogix Profile should apply                                                                             | Enabled (wees voorzichtig met deze setting in productie omgevingen) |
-| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Advanced**                       |                                                                     |
-| Locked VHD retry count                                                                                                             | 1                                                                   |
-| Locked VHD retry interval                                                                                                          | 0                                                                   |
-| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Cloud Cache**                    |                                                                     |
-| Cloud Cache Locations \*                                                                                                           | type=azure,connectionString="XXXXXXX"                               |
-| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Container and Directory Naming** |                                                                     |
-| SID directory name matching string                                                                                                 | %userdomain%-%username%                                             |
-| SID directory name pattern string                                                                                                  | %userdomain%-%username%                                             |
-| Virtual disk type                                                                                                                  | VHDX                                                                |
+| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers** |    |
+|-----------|----------|
+| Enabled   | Enabled    |
+| Size in MB’s   | 25600   |
+| Delete local profile when FSLogix Profile should apply  | Enabled (wees voorzichtig met deze setting in productie omgevingen) |
+| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Advanced**  |    |
+| Locked VHD retry count   | 1    |
+| Locked VHD retry interval    | 0    |
+| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Cloud Cache**  |   |
+| Cloud Cache Locations \*   | type=azure,connectionString="XXXXXXX"    |
+| **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Container and Directory Naming** |  |
+| SID directory name matching string    | %userdomain%-%username%  |
+| SID directory name pattern string  | %userdomain%-%username%   |
+| Virtual disk type  | VHDX |
 
 \* Vervang bij de waarde de XXXXXX tekens voor je persoonlijke connection-string
 van het strorage account dat je eerder gemaakt hebt in stap 1.1
@@ -495,7 +497,7 @@ De namen van de lokale groepen zijn: **FSLogix Profile Include List** &
 **FSLogix Profile Exclude List.** Vink aan dat de groep eerst leeggemaakt moet
 worden.
 
-![Afbeelding met schermafbeelding Automatisch gegenereerde beschrijving](media/5b31d32fb7950bdd2196214b1bf20c83.png)
+![](media/5b31d32fb7950bdd2196214b1bf20c83.png)
 
 Office Deployment Tool
 ----------------------
@@ -511,7 +513,7 @@ gedownload vanaf het Office Content Delivery Network. Aangezien we onze VM’s
 toch in Azure bouwen, is dit de meest makkelijke manier. Je kunt onderstaande
 configuratie gebruiken, maar je kan ook je eigen “Configuration.xml” maken.
 
-``` XML
+{% highlight xml linenos %}
 <Configuration ID="a02f45f4-6a0e-4215-85af-e2458dabbcf4" DeploymentConfigurationID="00000000-0000-0000-0000-000000000000">
     <Add OfficeClientEdition="64" Channel="Insiders" ForceUpgrade="TRUE">
     <Product ID="O365ProPlusRetail">
@@ -533,7 +535,7 @@ configuratie gebruiken, maar je kan ook je eigen “Configuration.xml” maken.
     </AppSettings>
     <Display Level="Full" AcceptEULA="TRUE" />
 </Configuration>
-```
+{% endhighlight %}
 
 Om Office te installeren heb je de Office Deployment Tool nodig. Deze kun je
 hier downloaden:
@@ -575,11 +577,11 @@ dwingen.
 
 Maak een nieuwe GPO en configureer als volgt:
 
-| **User Configuration -\> Policies -\> Administrative Templates -\> Microsoft Outlook 2016/Account Settings/Exchange/Cached Exchange Mode** |                  |
-|--------------------------------------------------------------------------------------------------------------------------------------------|------------------|
-| Cached Exchange Mode Sync Settings                                                                                                         | Enabled          |
-| Select Cached Exchange Mode sync settings for profiles                                                                                     | Zelf te bepalen. |
-| Use Cached Exchange Mode for new and existing Outlook profiles                                                                             | Enabled          |
+| **User Configuration -\> Policies -\> Administrative Templates -\> Microsoft Outlook 2016/Account Settings/Exchange/Cached Exchange Mode** |  |
+|----|----|
+| Cached Exchange Mode Sync Settings  | Enabled   |
+| Select Cached Exchange Mode sync settings for profiles  | Zelf te bepalen. |
+| Use Cached Exchange Mode for new and existing Outlook profiles | Enabled |
 
 Server(s) herstarten
 --------------------
@@ -631,5 +633,5 @@ Documentatie](https://docs.microsoft.com/nl-nl/azure/virtual-desktop/overview)
 Voor vragen en/of opmerkingen kun je ons een berichtje sturen via LinkedIn.
 
 | [Roel Everink](https://www.linkedin.com/in/roeleverink/) | [Jan Bakker](https://www.linkedin.com/in/jan-bakker/) |
-|----------------------------------------------------------|-------------------------------------------------------|
-| ![]({{ site.baseurl }}/images/WVDandFSLogix/image35.jpg)             | ![]({{ site.baseurl }}/images/WVDandFSLogix/image36.jpg)            |
+|----|----|
+| ![]({{ site.baseurl }}/images/WVDandFSLogix/image35.jpg) | ![]({{ site.baseurl }}/images/WVDandFSLogix/image36.jpg) |
