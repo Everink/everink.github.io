@@ -123,7 +123,7 @@ Create OU for the Windows Virtual Desktop VM’s
 Now Active Directory has been installed and ready for use we can create a couple of OU's that will house our WVD servers, and our users.
 We will also do this with PowerShell, but you can also do this with the GUI.
 
-``` powershell
+```
 New-ADOrganizationalUnit -Name ResultaatGroep -Path "DC=resultaatgroep,DC=eu"
 New-ADOrganizationalUnit -Name Groups -Path "OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
 New-ADOrganizationalUnit -Name Users -Path "OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
@@ -136,7 +136,7 @@ Creating testaccounts
 
 To login at our Virtuele Desktops, we create a couple of testaccounts. You'll need these before you create the WVD hostpool, as you need to supply users during the wizard.
 
-```powershell
+``` PowerShell
 $newADUserSplat = @{
     Path = "OU=Users,OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
     ChangePasswordAtLogon = $false
@@ -165,6 +165,7 @@ $newADUserSplat2 = @{
 }
 New-ADUser @newADUserSplat2
 ```
+
 ![]({{ site.baseurl }}/images/WVDandFSLogix/efe3ba3550f1f6d633c26a6d8de05e84.png)
 
 Installing Azure AD Connect
@@ -510,7 +511,7 @@ gedownload vanaf het Office Content Delivery Network. Aangezien we onze VM’s
 toch in Azure bouwen, is dit de meest makkelijke manier. Je kunt onderstaande
 configuratie gebruiken, maar je kan ook je eigen “Configuration.xml” maken.
 
-``` xml
+``` XML
 <Configuration ID="a02f45f4-6a0e-4215-85af-e2458dabbcf4" DeploymentConfigurationID="00000000-0000-0000-0000-000000000000">
     <Add OfficeClientEdition="64" Channel="Insiders" ForceUpgrade="TRUE">
     <Product ID="O365ProPlusRetail">
