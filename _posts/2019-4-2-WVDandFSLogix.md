@@ -101,7 +101,7 @@ Next you can install Active Directory Domain Services. In our demo we'll use Pow
 As a best-practice, make sure all data is on a datadisk, and not on an OS disk. This also goes for the AD database, log directory and sysvol directory. 
 Change the values to your own domain, and check if the datadisk (here with F:\\) is visible
 
- ```
+ ``` powershell
 $securestring = ConvertTo-SecureString -AsPlainText -Force -String *********
 Install-windowsfeature -name AD-Domain-Services -IncludeManagementTools
 
@@ -123,7 +123,7 @@ Create OU for the Windows Virtual Desktop VM’s
 Now Active Directory has been installed and ready for use we can create a couple of OU's that will house our WVD servers, and our users.
 We will also do this with PowerShell, but you can also do this with the GUI.
 
-```powershell
+``` powershell
 New-ADOrganizationalUnit -Name ResultaatGroep -Path "DC=resultaatgroep,DC=eu"
 New-ADOrganizationalUnit -Name Groups -Path "OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
 New-ADOrganizationalUnit -Name Users -Path "OU=ResultaatGroep,DC=resultaatgroep,DC=eu"
@@ -510,7 +510,7 @@ gedownload vanaf het Office Content Delivery Network. Aangezien we onze VM’s
 toch in Azure bouwen, is dit de meest makkelijke manier. Je kunt onderstaande
 configuratie gebruiken, maar je kan ook je eigen “Configuration.xml” maken.
 
-``` XML 
+``` xml
 <Configuration ID="a02f45f4-6a0e-4215-85af-e2458dabbcf4" DeploymentConfigurationID="00000000-0000-0000-0000-000000000000">
     <Add OfficeClientEdition="64" Channel="Insiders" ForceUpgrade="TRUE">
     <Product ID="O365ProPlusRetail">
