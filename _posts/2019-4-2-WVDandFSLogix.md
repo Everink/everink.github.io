@@ -444,21 +444,28 @@ To configure FSLogix we also make a group policy. Under Computer Configuration -
 Configure at least the following:
 
 **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers**
+
 | Setting | Value |
 |-----------|----------|
 | Enabled   | Enabled    |
 | Size in MB’s   | 25600   |
 | Delete local profile when FSLogix Profile should apply  | Enabled (be carefull with this setting in production environments) |
+
 **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Advanced**
+
 | Setting | Value |
 |-----------|----------|
 | Locked VHD retry count   | 1    |
 | Locked VHD retry interval    | 0    |
+
 **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Cloud Cache**
+
 | Setting | Value |
 |-----------|----------|
 | Cloud Cache Locations \*   | type=azure,connectionString="XXXXXXX"    |
+
 **Computer Configuration -\> Policies -\> Administrative Templates -\> FSLogix/Profile Containers/Container and Directory Naming**
+
 | Setting | Value |
 |-----------|----------|
 | SID directory name matching string    | %userdomain%-%username%  |
@@ -540,6 +547,7 @@ Note, this time we use the **User Configuration** section to force the cache set
 Make a new GPO and configure as following:
 
 **User Configuration -\> Policies -\> Administrative Templates -\> Microsoft Outlook 2016/Account Settings/Exchange/Cached Exchange Mode**
+
 | Setting | Value |
 |-----------|----------|
 | Cached Exchange Mode Sync Settings  | Enabled   |
