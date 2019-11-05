@@ -4,7 +4,7 @@ title: "Step by step: Windows Virtual Desktop and FSLogix"
 categories: [Windows Virtual Desktop,FSLogix,Azure]
 ---
 
-21 March 2019 the Windows Virtual Desktop preview went live. My colleague [Jan Bakker](https://www.linkedin.com/in/jan-bakker/) and myself went strait to all available documentation, and build a testenvironment together.
+21 March 2019 the Windows Virtual Desktop preview went live. My colleague [Jan Bakker](https://www.linkedin.com/in/jan-bakker/) and myself went straight to all available documentation, and build a testenvironment together.
 In this blogpost we will show you how to setup a Windows Virtual Desktop (WVD) environment, and what to watch out for. As a bonus we will also show how to install and configure FSLogix.
 This tuturial will be a step by step guide to setup a complete environment starting from zero.
 
