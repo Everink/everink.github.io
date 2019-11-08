@@ -1,3 +1,9 @@
+---
+layout: post
+title: "Azure AD FIDO2 Authentication"
+categories: [Azure,Authentication]
+---
+
 FIDO2 authentication is the latest method to sign in passwordless on devices and websites.
 
 It was already possible for a few months to login passwordless with Microsoft accounts with a FIDO2 security key, but recently Azure AD FIDO2 authentication is in public preview.
