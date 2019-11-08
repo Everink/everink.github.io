@@ -27,8 +27,7 @@ This makes it possible to login to services as Azure AD, or a random website, wi
 
 This is based on the device that carries your credentials, combined with something you know or are. Like a PIN or a fingerprint
 
-## Downsides of passwords
-<a name="downsides-passwords"></a>
+## Downsides of passwords <a name="downsides-passwords"></a>
 Passwords are everywhere, because they are so simple to implement. But that simple implementation can also have it downsides!
 
 **Passwords are often reused**  
@@ -47,8 +46,7 @@ This could be a simple as watching over someone shoulder as he/she types the pas
 **Vulnerable to keyloggers**  
 Regular passwords are vulnerable for keyloggers, this could be a hardware based keylogger between the PC and keyboard, but also a software keylogger. These record all keystrokes, including your password
 
-## Benefits of FIDO2 (password-less)
-<a name="#benefits--passwordless"></a>
+## Benefits of FIDO2 (password-less) <a name="#benefits-passwordless"></a>
 With FIDO2 all downsides of passwords are non-existent. This is because of the following.
 
 **Public / private keys**  
@@ -69,8 +67,7 @@ Because your identity and keypair is linked to a login domain (like login.micros
 You will not be vulnerable to social engineering attacks, as there is nothing to gues. You don't even know your own private key.
 And if you use a FIDO2 key with a fingerprint there is also nothing to see when you login. So no more looking away for your colleagues.
 
-## Requirements
-<a name="requirements"></a>
+## Requirements <a name="requirements"></a>
 
 To enable FIDO2 authentication there are a few requirements.
 
@@ -82,8 +79,7 @@ For Windows sign in:
 - Azure AD joined Windows 10 1809 or higher
 
 
-## Enable combined registration preview
-<a name="combined-registration-preview"></a>
+## Enable combined registration preview <a name="combined-registration-preview"></a>
 
 The possibility to register a security key is only available in the new registration portal. That's why we have to enable this feature first.
 
@@ -92,7 +88,7 @@ Go to **User Settings** -\> **Manage user feature preview settings**
 
 ![]({{ site.baseurl }}/images/fido2-authentication/cd639ac5645ac878afecac21680daa72.png)
 
-Make sure you select **All** or **Selected** for the feature::
+Make sure you select **All** or **Selected** for the feature:
 
 -   Users can use preview features for registering and managing security info – enhanced
 
@@ -101,8 +97,7 @@ Then click on **Save**
 
 ![]({{ site.baseurl }}/images/fido2-authentication/aa1030f79f088898c33e116b29735bcf.png)
 
-## Enable FIDO2 authentication
-<a name="enable-FIDO2"></a>
+## Enable FIDO2 authentication <a name="enable-FIDO2"></a>
 
 To enable FIDO2 as an authentication method we login to the azure portal with a global administrator account.
 Then go to **Azure Active Directory** -\> **Authentication Methods**
@@ -116,8 +111,7 @@ At **ENABLE** click **Yes**
 At **TARGET** I selected **All users**. It is possible to select a pilot group or user here.
 Then click on **Save**
 
-## User registration and management of security keys
-<a name="userregistration"></a>
+## User registration and management of security keys <a name="userregistration"></a>
 
 To register a security key as a user, you can go to the following page:
 <http://aka.ms/setupsecurityinfo>
@@ -150,8 +144,7 @@ Then the key is ready for use!
 
 ![]({{ site.baseurl }}/images/fido2-authentication/8b74541c02ca33b7c5e875476b35d3b9.png)
 
-## Login to websites with a FIDO2 security keys
-<a name="login-websites"></a>
+## Login to websites with a FIDO2 security keys <a name="login-websites"></a>
 
 To login to a website with our key we can go to any Microsoft page where we can login with our Azure AD account. Like <https://myapps.micosoft.com>,
 <https://outlook.office.com>, or <https://office.com>
@@ -172,8 +165,7 @@ Then follow the instructions to insert your key, and take action.
 
 And with that we signed in to our account, without using our username or password!
 
-## Login to Windows 10 with a FIDO2 security keys
-<a name="login-windows10"></a>
+## Login to Windows 10 with a FIDO2 security keys <a name="login-windows10"></a>
 
 To login to Windows 10 with a security key, we have to enable this feature first.
 You can do this in two ways:
