@@ -31,28 +31,27 @@ This is based on the device that carries your credentials, combined with somethi
 <a name="downsides-passwords"></a>
 Passwords are everywhere, because they are so simple to implement. But that simple implementation can also have it downsides!
 
-**Passwords are often reused**
+**Passwords are often reused**  
 Because we need so many passwords, they are often recycled for differnt services. So when 1 password is compromised, multiple services are often at risk because the same password could be used for those aswell.
 
-**Vulnerable to database hacks**
+**Vulnerable to database hacks**  
 Passwords are based on a pre-shared key. So the online service has a copy of your password, or a hashed version of your password.
 These databases can be compromised, so an attacker can find out your password
 
-**Vulnerable to Brute Force attacks**
+**Vulnerable to Brute Force attacks**  
 Passwords need to be remembered, so are often easily breached by a brute force or dictionary attack.
 
-**Vulnerable to social engineering attacks**
+**Vulnerable to social engineering attacks**  
 This could be a simple as watching over someone shoulder as he/she types the password, or by guessing the password based on data found on social media.
 
-**Vulnerable to keyloggers**
+**Vulnerable to keyloggers**  
 Regular passwords are vulnerable for keyloggers, this could be a hardware based keylogger between the PC and keyboard, but also a software keylogger. These record all keystrokes, including your password
-Reguliere wachtwoorden zijn vatbaar voor keyloggers. Dit kan een hardwarematige keylogger zijn, die tussen de PC en keyboard zit, maar ook een softwarematige. Deze keyloggers registreren alle toetsaanslagen, inclusief wachtwoorden.
 
 ## Benefits of FIDO2 (password-less)
 <a name="#benefits--passwordless"></a>
 With FIDO2 all downsides of passwords are non-existent. This is because of the following.
 
-**Public / private keys**
+**Public / private keys**  
 FIDO2 does not use a pre-shared key, but it uses public / private key pairs.
 
 The public key is handed to the identity provider (like Azure AD), and the private key stays on the device, and will never leave it.
@@ -60,13 +59,13 @@ It will only be used to sign a challenge.
 
 So even if your public key gets stolen it's no problem, because it's useless. That's what makes it a public key after all.
 
-**Unique keypairs**
+**Unique keypairs**  
 Where passwords are often reused for differnt services, that isn't the case with FIDO2. For every online identity a new key pair is generated. So every identity has its own public and private key.
 
-**Phishing is part of the past**
+**Phishing is part of the past**  
 Because your identity and keypair is linked to a login domain (like login.microsoft.com), a challenge from a phishing site won't be recognised by your FIDO2 key. A phishing site will try to let your login to login.micr0s0ft.com for example, and your FIDO2 key won't have a keypair for that login domain.
 
-**Social engineering**
+**Social engineering**  
 You will not be vulnerable to social engineering attacks, as there is nothing to gues. You don't even know your own private key.
 And if you use a FIDO2 key with a fingerprint there is also nothing to see when you login. So no more looking away for your colleagues.
 
@@ -91,7 +90,7 @@ The possibility to register a security key is only available in the new registra
 To to this login to <https://portal.azure.com> with a global administrator account.
 Go to **User Settings** -\> **Manage user feature preview settings**
 
-![](images/fido2-authentication/cd639ac5645ac878afecac21680daa72.png)
+![]({{ site.baseurl }}/images/fido2-authentication/cd639ac5645ac878afecac21680daa72.png)
 
 Make sure you select **All** or **Selected** for the feature::
 
@@ -100,7 +99,7 @@ Make sure you select **All** or **Selected** for the feature::
 If you choose **Selected** you can select a pilot group first.
 Then click on **Save**
 
-![](images/fido2-authentication/aa1030f79f088898c33e116b29735bcf.png)
+![]({{ site.baseurl }}/images/fido2-authentication/aa1030f79f088898c33e116b29735bcf.png)
 
 ## Enable FIDO2 authentication
 <a name="enable-FIDO2"></a>
@@ -110,7 +109,7 @@ Then go to **Azure Active Directory** -\> **Authentication Methods**
 
 Then click on  **FIDO2 Security Key**
 
-![](images/fido2-authentication/24d2b56d2e8a125e5c9abaca4c9bba54.png)
+![]({{ site.baseurl }}/images/fido2-authentication/24d2b56d2e8a125e5c9abaca4c9bba54.png)
 
 At **ENABLE** click **Yes**
 
@@ -125,31 +124,31 @@ To register a security key as a user, you can go to the following page:
 
 Click on **Add method**
 
-![](images/fido2-authentication/a4f5a8bbf18dbb0bca2686ad224d6c99.png)
+![]({{ site.baseurl }}/images/fido2-authentication/a4f5a8bbf18dbb0bca2686ad224d6c99.png)
 
 Then choose the option: **Security Key** and click on **Add**
 
-![](images/fido2-authentication/0e70e5b1f4a936799356ffe31f15ae5e.png)
+![]({{ site.baseurl }}/images/fido2-authentication/0e70e5b1f4a936799356ffe31f15ae5e.png)
 
 As my FIDO2 key is a USB device, I pick that.
 
-![](images/fido2-authentication/1178b8cb3d94058b3f35f4f3bd9b497a.png)
+![]({{ site.baseurl }}/images/fido2-authentication/1178b8cb3d94058b3f35f4f3bd9b497a.png)
 
 After that I have to take action on my security key. This is dependent on how your key is configured and which features it supports
 I have a Feitian Biopass with a fingerprint reader which is sufficient for me. Sometimes there's only a single button on it, and you have to enter a PIN as additional verification.
 
 You can also see that the public / private key pair will be made for login.microsoft.com, so the key pair will only work for this site.
 
-![](images/fido2-authentication/3b0b9a97ba42bfdf574b9230010464ca.png)
+![]({{ site.baseurl }}/images/fido2-authentication/3b0b9a97ba42bfdf574b9230010464ca.png)
 
 You can give your security key a descriptive name to identify it more easy.
 I call it: FeitianBiopass-Roel
 
-![](images/fido2-authentication/5b789b810b93329ac064c3f94d50d40c.png)
+![]({{ site.baseurl }}/images/fido2-authentication/5b789b810b93329ac064c3f94d50d40c.png)
 
 Then the key is ready for use!
 
-![](images/fido2-authentication/8b74541c02ca33b7c5e875476b35d3b9.png)
+![]({{ site.baseurl }}/images/fido2-authentication/8b74541c02ca33b7c5e875476b35d3b9.png)
 
 ## Login to websites with a FIDO2 security keys
 <a name="login-websites"></a>
@@ -159,17 +158,17 @@ To login to a website with our key we can go to any Microsoft page where we can 
 
 Click on **Sign-in options**
 
-![](images/fido2-authentication/c78f37eca418b15ad003ee9fe9a1b312.png)
+![]({{ site.baseurl }}/images/fido2-authentication/c78f37eca418b15ad003ee9fe9a1b312.png)
 
 And then **Sign in with a security key**
 
-![](images/fido2-authentication/327b0d5275ff3cebcaf8ab0e2ea3cc9b.png)
+![]({{ site.baseurl }}/images/fido2-authentication/327b0d5275ff3cebcaf8ab0e2ea3cc9b.png)
 
 Then follow the instructions to insert your key, and take action.
 
-![](images/fido2-authentication/f8673b59dee4f167b1b217c6758ea08c.png)
+![]({{ site.baseurl }}/images/fido2-authentication/f8673b59dee4f167b1b217c6758ea08c.png)
 
-![](images/fido2-authentication/61f900710c7ccf1308b0e64787fc9edd.png)
+![]({{ site.baseurl }}/images/fido2-authentication/61f900710c7ccf1308b0e64787fc9edd.png)
 
 And with that we signed in to our account, without using our username or password!
 
@@ -197,7 +196,7 @@ And make a profile with the following settings:
 **Platform:** Windows 10 and later  
 **Profile type:** Custom
 
-![](images/fido2-authentication/df40f0b78b5565ba9f089ee0b890f0c9.png)
+![]({{ site.baseurl }}/images/fido2-authentication/df40f0b78b5565ba9f089ee0b890f0c9.png)
 
 You have to add a new OMA-URI at settings.
 Click on **Add**
@@ -209,20 +208,20 @@ And fill out the following fields:
 **Data type:** Integer  
 **Value:** 1
 
-![](images/fido2-authentication/1687e9c140e81857cbf2a716db7c4dbd.png)
+![]({{ site.baseurl }}/images/fido2-authentication/1687e9c140e81857cbf2a716db7c4dbd.png)
 
 Go to **Assignments**
 At **Assign to** select **All Users & All Devices**, or optionally select a pilot group or user
 
-![](images/fido2-authentication/2573ffee1ed3a7100f24d05303765451.png)
+![]({{ site.baseurl }}/images/fido2-authentication/2573ffee1ed3a7100f24d05303765451.png)
 
 As soon as these settings are pushed to our device it's possible to sign in to windows with our FIDO2 security key
 For this, click on **Sign-in Options**, and choose the **USB symbol (FIDO security key)**
 
-![](images/fido2-authentication/1fad81d24b7d2136ea4750a6e97cb66f.jpg)
+![]({{ site.baseurl }}/images/fido2-authentication/1fad81d24b7d2136ea4750a6e97cb66f.jpg)
 
 Next we can authenticate on your security key, and we will be signed into Windows, again, without using our username or password!
 
-![](images/fido2-authentication/fb3236cff94006270af90c6746a863ed.jpg)
+![]({{ site.baseurl }}/images/fido2-authentication/fb3236cff94006270af90c6746a863ed.jpg)
 
 This completes our full setup. We can now sign in to our device and to web pages with our security key and enjoy the benefits of passwordless authentication!
