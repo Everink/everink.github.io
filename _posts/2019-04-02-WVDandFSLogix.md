@@ -4,16 +4,16 @@ title: "Step by step: Windows Virtual Desktop and FSLogix"
 categories: [Windows Virtual Desktop,FSLogix,Azure]
 ---
 
-21 March 2019 the Windows Virtual Desktop preview went live. My colleague [Jan Bakker](https://www.linkedin.com/in/jan-bakker/) and myself went strait to all available documentation, and build a testenvironment together.
+21 March 2019 the Windows Virtual Desktop preview went live. My colleague [Jan Bakker](https://www.linkedin.com/in/jan-bakker/) and myself went straight to all available documentation, and build a test environment together.
 In this blogpost we will show you how to setup a Windows Virtual Desktop (WVD) environment, and what to watch out for. As a bonus we will also show how to install and configure FSLogix.
-This tuturial will be a step by step guide to setup a complete environment starting from zero.
+This tutorial will be a step by step guide to setup a complete demo environment from scratch.
 
 **What is Windows Virtual Desktop?**
 
 Windows Virtual Desktop is a new service from Microsoft and enables you to deliver a virtual desktop from the Azure cloud.
 This could be a multi-user Windows 10 desktop, but also Windows 7 (with extended support) is possible.
 It also gives you the ability to install Office 365 ProPlus on the virtual desktops.
-Windows Virtual Desktop is a schalable service to deploy virtual machines, made possible by Azure resources, storage and advanced networking. 
+Windows Virtual Desktop is a scalable service to deploy virtual machines, made possible by Azure resources, storage and advanced networking. 
 The back-end like RDS brokers, gateways, web access, databases, and diagnostics are hosted and managed by Microsoft.
 
 Table of Contents
@@ -40,26 +40,26 @@ To use Windows Virtual Desktop there are some requirements:
 
 -   An Azure subscription with credits.
 
-The virtual machines that are deployed have to be domain joined, or be hybrid domain joined. Azure AD join is not (yet?) possible. So Windows Virtual Desktop is dependand upon an Active Directory domain. The VM's will be joined to this domain, and because of AD Connect you can login with your own Azure AD credentials.
+The virtual machines that are deployed have to be domain joined, or be hybrid domain joined. Azure AD join is not (yet?) possible. So Windows Virtual Desktop is depending on an Active Directory domain. The VM's will be joined to this domain, and with the use of AD Connect, you can login with your own Azure AD credentials.
 There are 3 options for Active Directory Domain Services:
 
-1.  Install / Enable **Azure Active Directory Domain Services**
+1.  Install / Enable **Azure Active Directory Domain Services** in your Azure subscription
 
 2.  Install the Active Directory Domain Services role on a server in Azure
 
 3.  Connect your own on-premises network with Active Directory to your Azure tenant with a Site-2-Site VPN
-    or ExpressRoute
+    or ExpressRoute connection
 
-In this blog we chose option 2: We install a Server 2019 VM and install the ADDS role.
+In this blog we choose option 2: We install a Windows Server 2019 VM and install the ADDS role.
 <a name="create-azure-tenant"></a>
 
 # 2. Create azure tenant & subscription
 
-In this blog we start from zero. We'll show you how to deploy Windows Virtual desktop from zero. So we start with requesting a 30-days Azure trial subscription. 
+In this blog we start from scratch. We'll show you how to deploy Windows Virtual desktop in a greenfield environment. So we start with requesting a 30-days Azure trial subscription. 
 You can request your trial here:
 [https://azure.microsoft.com/nl-nl/free/](https://azure.microsoft.com/nl-nl/free/)
 
-Follow the steps to create the trial subscription. You'll also need a creditcard. No worries, this is only for verification, no costs will be billed.
+Follow the steps to create the trial subscription. You'll also need a creditcard. No worries, this is only for verification, no actual costs will be charched.
 
 Because we will need an internet routable domainname, we will add this right away to our Azure AD tenant. This domainname we will also use for our Active Directory domainname.
 This isn't necessary, but it will make sure we have an easier domainname for our Azure AD users.
@@ -71,7 +71,7 @@ Your own domain is optional.
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/dad42e1331444e5d6baa70989996d0d4.png)
 
-As soon as we added the custom domainname, we have to create a TXT record in DNS to validate the domain, and after that we can start creating users with the suffix: @resultaatgroep.eu
+As soon as we added the custom domainname, we have to create a TXT record in the public DNS console to validate the domain, and after that we can start creating users with the suffix: @resultaatgroep.eu
 
 ![]({{ site.baseurl }}/images/WVDandFSLogix/b86bbbc391db5623c6f4a8d5842d08be.png)
 

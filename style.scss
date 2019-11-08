@@ -18,8 +18,8 @@ html {
 }
 
 body {
-  //background: $white;
-  background: #d3d3d3;
+  //@at-rootbackground: $white;
+  background: #eee;
   font: 16px/1.4 $helvetica;
   color: $darkGray;
 }
@@ -29,6 +29,7 @@ body {
   max-width: 840px;
   padding: 0 10px;
   width: 100%;
+  background: white;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -37,7 +38,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 
   line-height: 1.7;
-  margin: 1em 0 15px;
+  margin: 0 15px;
   padding: 0;
 
   @include mobile {
@@ -111,6 +112,15 @@ img {
   max-width: 100%;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+  padding: 0 10px;
+}
+
 // Fixes images in popup boxes from Google Translate
 .gmnoprint img {
   max-width: none;
@@ -152,7 +162,7 @@ img {
 //
 
 .wrapper-masthead {
-  margin-bottom: 50px;
+  margin-bottom: 0px;
 }
 
 .masthead {
@@ -283,7 +293,7 @@ nav {
 }
 
 .wrapper-footer {
-  margin-top: 50px;
+  //margin-top: 50px;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   background-color: $lightGray;

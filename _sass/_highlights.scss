@@ -11,10 +11,14 @@
   overflow: scroll;
 
   .rouge-table {
+    border: 0px;
+
+    .gutter {
+      border: 0px;
+    }
+
     .code {
-      pre {
-        margin-left: 10px;
-      }
+      border: 0px ;
     }
   }
 }
