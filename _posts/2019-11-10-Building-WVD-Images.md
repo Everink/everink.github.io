@@ -39,7 +39,7 @@ You can see the overview in the following picture
 ![]({{ site.baseurl }}/images/AIB/AIB-overview.png)
 
 Now, AIB is still in preview, so there are a few limitations to the service.
-It is limited to the folling locations, but can still distribute outside of these locations.
+It is limited to the following locations, but can still distribute outside of these locations.
 - East US
 - East US 2
 - West Central US
@@ -139,9 +139,9 @@ If you want to use the Microsoft quickstart template, you can download it and ed
 - Replace \<imageName\> for a custom managed image name
 - Replace \<runOutputName\> for aibWindows (or something else you make up)
 
-If however, you want to make use of another ARM template, I have one in [my GitHub account](https://raw.githubusercontent.com/Everink/AzureImageBuilder/master/AzureImageBuilder.json) as well, that uses parameters with some default values setup.
+If however, you want to make use of another ARM template, I have one in [my GitHub account](https://github.com/Everink/AzureImageBuilder/blob/master/Templates/AzureImageBuilder-ManagedImage.json) as well, that uses parameters with some default values setup.
 
-It will use the customize script that's also in [my GitHub account](https://raw.githubusercontent.com/Everink/AzureImageBuilder/master/AzureImageBuilder.ps1). It will install Visual Studio Code, Teams, Notepad++ and FSLogix.
+It will use the customize script that's also in [my GitHub account](https://github.com/Everink/AzureImageBuilder/blob/master/Scripts/AzureImageBuilder.ps1). It will install Visual Studio Code, Teams, Notepad++ and FSLogix.
 
 To deploy this template use the following PowerShell commands
 
@@ -150,7 +150,7 @@ $TemplateUri = "https://raw.githubusercontent.com/Everink/AzureImageBuilder/mast
 New-AzResourceGroupDeployment -ResourceGroupName RG_EUS_AzureImageBuilder -TemplateUri $TemplateUri -OutVariable Output -Verbose
 {% endhighlight %}
 
-This will create an ImageTemplate package, which is linked to a new ResourceGroup IT_\<AIB-resourcegroupname\>_\<AIB-imagetemplatename\>\<random GUID\>. In that resourcegroup it will setup all prerequisites, like downloading powershell scripts or files, and checking if AIB has all necessary rights on other resources (like Shared Image Gallery if you want to distribute to that)  
+This will create an ImageTemplate package, which is linked to a new ResourceGroup *IT_\<AIB-resourcegroupname\>_\<AIB-imagetemplatename\>\<random GUID\>*. In that resourcegroup it will setup all prerequisites, like downloading powershell scripts or files, and checking if AIB has all necessary rights on other resources (like Shared Image Gallery if you want to distribute to that)  
 It does not yet start building our image. It can be seen in the portal by selecting **Show hidden items**
 
 ![]({{ site.baseurl }}/images/AIB/AIB-imagetemplate.png)
