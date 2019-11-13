@@ -37,7 +37,7 @@ This is based on the device that carries your credentials, combined with somethi
 Passwords are everywhere, because they are so simple to implement. But that simple implementation can also have it downsides!
 
 **Passwords are often reused**  
-Because we need so many passwords, they are often recycled for differnt services. So when 1 password is compromised, multiple services are often at risk because the same password could be used for those aswell.
+Because we need so many passwords, they are often recycled for different services. So when 1 password is compromised, multiple services are often at risk because the same password could be used for those as well.
 
 **Vulnerable to database hacks**  
 Passwords are based on a pre-shared key. So the online service has a copy of your password, or a hashed version of your password.
@@ -64,20 +64,20 @@ It will only be used to sign a challenge.
 So even if your public key gets stolen it's no problem, because it's useless. That's what makes it a public key after all.
 
 **Unique keypairs**  
-Where passwords are often reused for differnt services, that isn't the case with FIDO2. For every online identity a new key pair is generated. So every identity has its own public and private key.
+Where passwords are often reused for different services, that isn't the case with FIDO2. For every online identity a new key pair is generated. So every identity has its own public and private key.
 
 **Phishing is part of the past**  
-Because your identity and keypair is linked to a login domain (like login.microsoft.com), a challenge from a phishing site won't be recognised by your FIDO2 key. A phishing site will try to let your login to login.micr0s0ft.com for example, and your FIDO2 key won't have a keypair for that login domain.
+Because your identity and keypair is linked to a login domain (like login.microsoft.com), a challenge from a phishing site won't be recognized by your FIDO2 key. A phishing site will try to let your login to login.micr0s0ft.com for example, and your FIDO2 key won't have a keypair for that login domain.
 
 **Social engineering**  
-You will not be vulnerable to social engineering attacks, as there is nothing to gues. You don't even know your own private key.
+You will not be vulnerable to social engineering attacks, as there is nothing to guess. You don't even know your own private key.
 And if you use a FIDO2 key with a fingerprint there is also nothing to see when you login. So no more looking away for your colleagues.
 
 ## Requirements <a name="requirements"></a>
 
 To enable FIDO2 authentication there are a few requirements.
 
-- Enable combined registratie (preview)
+- Enable combined registration (preview)
 - Windows 10 1809 or higher met Microsoft Edge
 - Compatible FIDO2 security key
 
@@ -190,7 +190,7 @@ Go to **Device configuration** -\> **Profiles** -\> **Create profile**
 And make a profile with the following settings:
 
 **Name:** [profilename]  
-**Description:** [beschrijving van het profiel]  
+**Description:** [Description of the profile]  
 **Platform:** Windows 10 and later  
 **Profile type:** Custom
 
