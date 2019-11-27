@@ -5,11 +5,11 @@ categories: [Azure,Azure Functions,PowerShell]
 ---
 
 Every year, me and a couple of cousins of mine pick a day, and we game all day. Usually it's an old game that everybody can play. Like Command & Conquer: Generals.  
-Back in the days we all came together and linked our PC's with a switch, and we were good to go. But these days we're grown up and living miles apart, so we usually link are PC's over the internet.
-With an old game like that internet connect doesn't work that well, it needs a LAN. So I build an pfsense server in Azure that supports Layer 2 broadcast messages over the VPN. This all works really well.
+Back in the days we all came together and linked our PC's with a switch, and we were good to go. But these days we're grown up and living miles apart, so we usually link our PC's over the internet.
+With an old game like that, connecting over the internet doesn't work that well or isn't supported at all, it needs a LAN. So I build an pfsense server in Azure that supports Layer 2 broadcast messages over the VPN. This all works really well.
 
 To reduce my Azure spending I have an auto shutdown schedule configured. It shuts down my VM at 23:30, and it stays that way until turned on.  
-Sometimes my cousins want to game while I have to work, or have other stuff to do, and I dont have time to turn on my Azure VM, and of course, I don't want to give them access to my subscription either. 
+Sometimes my cousins want to game while I have to work, or have other stuff to do, and I don't have time to turn on my Azure VM, and of course, I don't want to give them access to my subscription either. 
 
 There is a solution for my usecase:  
 **Azure Functions**
@@ -64,11 +64,11 @@ Then on the Review + Create tab. Choose **Create**
 
 # 3. Creating a Managed Identity <a name="managed-identity"></a>
 
-To determine the status I can use the Az PowerShell module, the Az module gets is supported right out of the box in Azure Functions, so I don't have to install it first. But I do need an account to authenticate to my subscription.  
+To determine the status I can use the Az PowerShell module, the Az module is supported right out of the box in Azure Functions, so I don't have to install it first. But I do need an account to authenticate to my subscription.  
 For this we can use a managed identity.
 
 The managed identity is created on the Function App level, so it's for all our functions in our Function App.
-Go to the **function** -> **Platform features** -> **Identity**
+Go to the **function app** -> **Platform features** -> **Identity**
 
 ![]({{ site.baseurl }}/images/selfservice-function/managed-identity1.png)
 
@@ -84,7 +84,7 @@ The managed identity has the same name as your function app. Select it, and clic
 
 # 4. Creating the first function <a name="first-function"></a>
 
-Once your Function App is ready, and you have your managed identity, You can create a function with the quickstart by clicking on the  **+** sign next to functions.
+Once your Function App is ready, and you have your managed identity, you can create a function with the quickstart by clicking on the  **+** sign next to functions.
 
 ![]({{ site.baseurl }}/images/selfservice-function/new-function1.0.png)
 
@@ -93,7 +93,7 @@ The downside of the quickstart is that it will give your function a standard nam
 ![]({{ site.baseurl }}/images/selfservice-function/new-function1.1.png)
 
 As my first function will be a website, the trigger is an HTTP trigger, it will be a simple GET request like any website, so click **HTTP Trigger**  
-After that you can give your function a name, and and authorization level. I choose Anonymous, as I will add Azure AD authentication later.
+After that you can give your function a name, and authorization level. I chose Anonymous, as I will add Azure AD authentication later.
 
 ![]({{ site.baseurl }}/images/selfservice-function/new-function1.2.png)
 
@@ -165,6 +165,6 @@ The selfservice app can be found under Enterprise Application. In the properties
 
 After that go to Users & Groups and select the users or groups that are allowed to access the application.
 
-This concludes the guide to create an Azure PowerShell function behind Azure AD authentication
+You can edit this to your own needs of course. You can let groups of users like your developers select VM's to start / stop / reboot. Or you can even do complete ARM template deployments from inside your functions.
 
 
